@@ -516,8 +516,8 @@ tvheadend.autoreceditor = function() {
 					displayField : 'name'
 				})
 			}, {
-				header : "Starting Around",
-				dataIndex : 'approx_time',
+				header : "Start after",
+				dataIndex : 'tod_after',
 				renderer : function(value, metadata, record, row, col, store) {
 					if (typeof value === 'string') return value;
 
@@ -532,7 +532,27 @@ tvheadend.autoreceditor = function() {
 				},
 				editor : new Ext.form.TimeField({
 					allowBlank : true,
-					increment : 10,
+					increment : 15,
+					format : 'H:i'
+				})
+			}, {
+				header : "Start before",
+				dataIndex : 'tod_before',
+				renderer : function(value, metadata, record, row, col, store) {
+					if (typeof value === 'string') return value;
+
+					if (value === 0) return '';
+
+					var hours = Math.floor(value / 60);
+					var mins = value % 60;
+					var dt = new Date();
+					dt.setHours(hours);
+					dt.setMinutes(mins);
+					return dt.format('H:i');
+				},
+				editor : new Ext.form.TimeField({
+					allowBlank : true,
+					increment : 15,
 					format : 'H:i'
 				})
 			}, {
@@ -686,7 +706,7 @@ tvheadend.dvr = function() {
 
 	tvheadend.autorecRecord = Ext.data.Record.create([ 'enabled', 'title',
 		'serieslink', 'channel', 'tag', 'creator', 'contenttype', 'comment',
-		'weekdays', 'pri', 'approx_time', 'config_name' ]);
+		'weekdays', 'pri', 'approx_time', 'tod_after', 'tod_before', 'config_name' ]);
 
 	tvheadend.autorecStore = new Ext.data.JsonStore({
 		root : 'entries',
