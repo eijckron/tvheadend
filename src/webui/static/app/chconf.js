@@ -184,6 +184,8 @@ tvheadend.chconf = function() {
 					ret.push(tag.data.name);
 				}
 			}
+
+			ret.sort();
 			return ret.join(', ');
 		},
 		editor : new Ext.ux.form.LovCombo({
